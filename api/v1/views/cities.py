@@ -68,8 +68,8 @@ def post_city_by_state(state_id):
 
 
 @app_views.route('/cities/<city_id>', methods=['PUT'])
-def put_city(city_id):
-    """Updates a City object: PUT """
+def set_city(city_id):
+    """Updates a City object: PUT"""
     req_city = request.get_json()
     if not request.json:
         abort(400, 'Not a JSON')
