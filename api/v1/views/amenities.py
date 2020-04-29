@@ -33,25 +33,27 @@ def get_id(amenity_id):
 
 
 @app_views.route('/amenities/<amenity_id>', methods=['DELETE'])
-def delete_amenity_by_id(amenity_id):
-    """method that deletes a amenity by id"""
-    delete_amenity = storage.get('Amenity', amenity_id)
-    if not delete_amenity:
+def delete_id(amenity_id):
+    """Deletes a Amenity object:: DELETE """
+    errase_amenity = storage.get('Amenity', amenity_id)
+    if not errase_amenity:
         abort(404)
     else:
-        delete_amenity.delete()
+        errase_amenity.delete()
         storage.save()
+        """Returns an empty dictionary with the status code 200"""
         return jsonify({}), 200
 
 
 @app_views.route('/amenities', methods=['POST'], strict_slashes=False)
 def post_amenity():
-    """method to post a new amenity"""
+    """Creates a Amenity: POST"""
     new_amenity = request.get_json()
     if new_amenity is None:
         abort(400, 'Not a JSON')
     if 'name' not in new_amenity:
         abort(400, 'Missing name')
+    """ to transform the HTTP request to a dictionary"""
     new_amenity = Amenity(name=request.json['name'])
     storage.new(new_amenity)
     storage.save()
@@ -60,7 +62,7 @@ def post_amenity():
 
 @app_views.route('/amenities/<amenity_id>', methods=['PUT'])
 def put_amenity(amenity_id):
-    """method to update/put a amenity by id"""
+    """Updates a Amenity object: PUT"""
     req_amenity = request.get_json()
     if not request.json:
         abort(400, 'Not a JSON')
