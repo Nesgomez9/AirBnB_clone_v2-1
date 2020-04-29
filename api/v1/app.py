@@ -1,9 +1,11 @@
-#!/usr/bin/pyrhon3
+#!/usr/bin/python3
 """Module to create a API with flask"""
-from flask import Flask
+from flask import Flask, jsonify
 from models import storage
 from api.v1.views import app_views
-from os import environ
+from os import getenv
+
+
 app = Flask(__name__)
 app.register_blueprint(app_views)
 
