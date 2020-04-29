@@ -54,18 +54,18 @@ class DBStorage:
     def get(self, cls, id):
         """Get a object by id"""
         if cls in classes and id is not None:
-            obj = self.__session.query(classes[clss]).get(id)
+            obj = self.__session.query(classes[clss]).all
             return obj
         else:
             return None
 
     def count(self, cls=None):
-        """Count the number of objects"""
+        """Count all objects"""
+        objs = self.all(cls)
         num_obj = 0
-        objs = self.all()
-        for i in objs:
+        for key in objs:
             num_obj += 1
-        return (num_obj)
+        return num_obj
 
     def new(self, obj):
         """add the object to the current database session"""
