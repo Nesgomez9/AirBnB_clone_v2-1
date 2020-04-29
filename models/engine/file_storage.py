@@ -76,8 +76,7 @@ class FileStorage:
             for key, value in objs.items():
                 if id == value.id:
                     return (value)
-        else:
-            return None
+        return None
 
     def count(self, cls=None):
         """Count all objects"""

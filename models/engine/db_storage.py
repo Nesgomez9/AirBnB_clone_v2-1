@@ -55,9 +55,10 @@ class DBStorage:
         """Get a object by id"""
         if cls in classes and id is not None:
             obj = self.__session.query(classes[clss]).all
-            return obj
-        else:
-            return None
+            for key, value in obj:
+                if id == value.id:
+                    return value
+        return None
 
     def count(self, cls=None):
         """Count all objects"""
