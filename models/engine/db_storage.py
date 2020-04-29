@@ -76,7 +76,7 @@ class DBStorage:
         self.__session.remove()
 
     def count(self, cls=None):
-        """ Count method """
+        """ Count the number of objects in the data base """
         objs = self.all(cls)
         n_objs = 0
         for obj in objs:

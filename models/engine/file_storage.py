@@ -70,7 +70,7 @@ class FileStorage:
         self.reload()
 
     def count(self, cls=None):
-        """ Count method """
+        """ Return the number of objects by class"""
         objs = self.all(cls)
         n_objs = 0
         for obj in objs:

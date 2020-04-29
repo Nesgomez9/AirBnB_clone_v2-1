@@ -10,12 +10,12 @@ from models.state import State
 @app_views.route("/states", methods=["GET"], strict_slashes=False)
 def get_states(state_id=None):
     """GET request"""
-    states_list = []
     if not state_id:
+        states_l = []
         states = storage.all(State).values()
         for state in states:
-            states_list.append(state.to_dict())
-        return jsonify(states_list)
+            states_l.append(state.to_dict())
+        return jsonify(states_l)
     else:
         state = storage.get(State, state_id)
         if not state:
