@@ -1,28 +1,27 @@
 #!/usr/bin/python3
-""" New view for City objects that handles all default RestFul API actions"""
-
+"""
+New view for City objects that handles all default RestFul API actions
+"""
+from flask import Flask, jsonify, abort, request
 from api.v1.views import app_views
 from models import storage
 from models.city import City
 from models.state import State
-from flask import Flask, jsonify, abort, request
 
 
 @app_views.route('/states/<state_id>/cities',
                  methods=['GET'], strict_slashes=False)
 def get_city(state_id):
     """Retrieves the list of all City objects of a State: GET"""
-    
     state_req = storage.get('State', state_id)
     """If the state_id is not linked to any State object,"""
     if state_req is None:
-        abort(404) 
+        abort(404)
     cities = state_req.cities
     city_req = []
     for city in cities:
         city_req.append(city.to_dict())
     return jsonify(city_req)
-    """to_dict() to serialize an object into valid JSON"""
 
 
 @app_views.route('/cities/<city_id>', methods=['GET'])
