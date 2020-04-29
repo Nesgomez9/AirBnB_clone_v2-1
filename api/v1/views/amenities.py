@@ -1,8 +1,5 @@
 #!/usr/bin/python3
-"""
-Amenity handles all default RestFul API actions 
-"""
-
+""" Amenity handles all default RestFul API actions """
 
 from flask import Flask, jsonify, abort, request
 from models import storage
@@ -26,7 +23,7 @@ def get_amenity():
 def get_id(amenity_id):
     """Retrieves the list of all Amenity objects: GET by id"""
     amenity = storage.get('Amenity', amenity_id)
-    """If the amenity_id is not linked to any Amenity object, raise a 404 error"""
+    """If is not linked to any Amenity object, raise a 404 error"""
     if amenity is None:
         abort(404)
     return jsonify(amenity.to_dict())
@@ -76,4 +73,3 @@ def put_amenity(amenity_id):
             setattr(mod_amenity, key, req_amenity[key])
     storage.save()
     return jsonify(mod_amenity.to_dict()), 200
-    
