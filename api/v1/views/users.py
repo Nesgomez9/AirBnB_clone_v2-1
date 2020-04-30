@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" object that handles all default RestFul API actions:"""
+"""User object that handles all default RestFul API actions"""
 
 from flask import Flask, jsonify, abort, request
 from models import storage
