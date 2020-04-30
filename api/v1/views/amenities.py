@@ -7,25 +7,26 @@ from api.v1.views import app_views
 from models.amenity import Amenity
 
 
-@app_views.route('/amenities', methods=['GET'], strict_slashes=False)
-def get_amenities():
-    """method that retrieves a list of all amenities"""
-    all_amenities = storage.all('Amenity')
-    amenities_list = all_amenities.values()
-    amenities_json = []
-    for amenity in amenities_list:
-        amenities_json.append(amenity.to_dict())
-    return jsonify(amenities_json)
+@app_views.route("/amenities", methods=['GET'], strict_slashes=False)
+def all_amenities():
+    """Retrieves the list of all Amenity objects"""
+    amenities = []
+    for key, value in storage.all("Amenity").items():
+        amenities.append(value.to_dict())
+    return jsonify(amenities)
 
 
-@app_views.route('/amenities/<amenity_id>', methods=['GET'])
-def get_amenity_by_id(amenity_id):
-    """method that retrieves a state filter by id"""
-    my_amenity = storage.get('Amenity', amenity_id)
-    if my_amenity is None:
+@app_views.route("/amenities/<amenity_id>", methods=['GET'],
+                 strict_slashes=False)
+def obj_amenity(amenity_id):
+    """Retrieves a Amenity object"""
+    amenity = storage.get(Amenity, amenity_id)
+    if amenity:
+        return jsonify(amenity.to_dict())
+    else:
         abort(404)
-    return jsonify(my_amenity.to_dict())
 
+        
 @app_views.route('/amenities/<amenity_id>', methods=['DELETE'])
 def delete_id(amenity_id):
     """Deletes a Amenity object:: DELETE """
