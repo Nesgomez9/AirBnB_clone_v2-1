@@ -1,7 +1,5 @@
 #!/usr/bin/python3
-"""
-Places
-"""
+"""Place objects that handles all default RestFul API actions:"""
 
 from api.v1.views import app_views
 from flask import Flask, jsonify, abort, request
@@ -11,8 +9,8 @@ from models.place import Place
 
 @app_views.route('/cities/<city_id>/places',
                  methods=['GET'], strict_slashes=False)
-def get_places_by_city(city_id):
-    """method that retrieves a list of all places"""
+def get_all(city_id):
+    """Retrieves the list of all Review objects of a Place: GET"""
     my_city = storage.get('City', city_id)
     if my_city is None:
         abort(404)
@@ -24,8 +22,8 @@ def get_places_by_city(city_id):
 
 
 @app_views.route('/places/<place_id>', methods=['GET'], strict_slashes=False)
-def get_places_by_id(place_id):
-    """method that retrieves a place filter by id"""
+def get_id(place_id):
+    """Retrieves the list of all Review objects of a Place: GET by id"""
     my_place = storage.get('Place', place_id)
     if my_place is not None:
         return jsonify(my_place.to_dict())
@@ -35,8 +33,8 @@ def get_places_by_id(place_id):
 
 @app_views.route('/places/<place_id>', methods=['DELETE'],
                  strict_slashes=False)
-def delete_places_by_id(place_id):
-    """method that deletes a place by id"""
+def delete_id(place_id):
+    """Deletes a Review object: DELETE"""
     delete_place = storage.get('Place', place_id)
     if delete_place is None:
         abort(404)
@@ -47,8 +45,8 @@ def delete_places_by_id(place_id):
 
 @app_views.route('/cities/<city_id>/places',
                  methods=['POST'], strict_slashes=False)
-def post_place(city_id):
-    """method to post a new place"""
+def post_review(city_id):
+    """Creates a Review: POST"""
     new_place = request.get_json()
     if not new_place:
         abort(400, 'Not a JSON')
@@ -72,8 +70,8 @@ def post_place(city_id):
 
 
 @app_views.route('/places/<place_id>', methods=['PUT'], strict_slashes=False)
-def put_place(place_id):
-    """method to update/put a place by id"""
+def put_review(place_id):
+    """Updates a Review object: PUT"""
     mod_place = storage.get('Place', place_id)
     if mod_place is None:
         abort(404)
@@ -88,4 +86,3 @@ def put_place(place_id):
             setattr(mod_place, key, req_place[key])
     storage.save()
     return jsonify(mod_place.to_dict()), 200
-

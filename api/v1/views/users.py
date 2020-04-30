@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""User object that handles all default RestFul API actions"""
+""" object that handles all default RestFul API actions:"""
 
 from flask import Flask, jsonify, abort, request
 from models import storage
@@ -8,7 +8,7 @@ from models.user import User
 
 
 @app_views.route('/users', methods=['GET'], strict_slashes=False)
-def get_users():
+def get_all():
     """Retrieves a User object: GET"""
     users = storage.all('User')
     req_user = users.values()
@@ -19,7 +19,7 @@ def get_users():
 
 
 @app_views.route('/users/<user_id>', methods=['GET'])
-def get_user_by_id(user_id):
+def get_id(user_id):
     """Retrieves a User object: GET by id"""
     user = storage.get('User', user_id)
     if user is None:
@@ -28,8 +28,8 @@ def get_user_by_id(user_id):
 
 
 @app_views.route('/users/<user_id>', methods=['DELETE'])
-def delete_user_by_id(user_id):
-    """method that deletes an user by id"""
+def delete_id(user_id):
+    """Deletes a Review object: DELETE"""
     delete_user = storage.get('User', user_id)
     if not delete_user:
         abort(404)
@@ -40,8 +40,8 @@ def delete_user_by_id(user_id):
 
 
 @app_views.route('/users', methods=['POST'], strict_slashes=False)
-def post_user():
-    """method to post a new user"""
+def post_review():
+    """Creates a Review: POST"""
     new_user = request.get_json()
     if new_user is None:
         abort(400, 'Not a JSON')
@@ -57,8 +57,8 @@ def post_user():
 
 
 @app_views.route('/users/<user_id>', methods=['PUT'])
-def put_user(user_id):
-    """method to update/put a state by id"""
+def put_review(user_id):
+    """Updates a Review object: PUT"""
     req_user = request.get_json()
     if not request.json:
         abort(400, 'Not a JSON')
