@@ -10,16 +10,15 @@ from models.amenity import Amenity
 @app_views.route('/amenities', methods=['GET'], strict_slashes=False)
 def get_amenity():
     """Retrieves the list of all Amenity objects: GET"""
-    amenity_req = storage.all('Amenity')
-    amenities_all = amenity_req.values()
-    amenities_json = []
-    for amenity in amenities_all:
+    amenities = []
+    for key, value in storage.all("Amenity").items():
         """to_dict() to serialize an object into valid JSON"""
-        amenities_json.append(amenity.to_dict())
-    return jsonify(amenities_json)
+        amenities.append(value.to_dict())
+        return jsonify(amenities)
 
 
-@app_views.route('/amenities/<amenity_id>', methods=['GET'])
+@app_views.route("/amenities/<amenity_id>", methods=['GET'],
+                 strict_slashes=False)
 def get_id(amenity_id):
     """Retrieves the list of all Amenity objects: GET by id"""
     amenity_all = storage.get('Amenity', amenity_id)
