@@ -7,7 +7,7 @@ from api.v1.views import app_views
 from models.amenity import Amenity
 
 
-@app_views.route('/amenities', methods=['GET'], strict_slashes=False)
+@app_views.route('/amenities/', methods=['GET'], strict_slashes=False)
 def get_amenity():
     """Retrieves the list of all Amenity objects: GET"""
     amenities = []
@@ -51,7 +51,7 @@ def post_amenity():
         abort(400, 'Missing name')
     """ to transform the HTTP request to a dictionary"""
     post_amenity = Amenity(name=request.json['name'])
-    storage.new(new_amenity)
+    storage.new(post_amenity)
     storage.save()
     return jsonify(post_amenity.to_dict()), 201
 
