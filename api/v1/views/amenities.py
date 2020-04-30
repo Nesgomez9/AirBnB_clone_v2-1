@@ -26,8 +26,9 @@ def obj_amenity(amenity_id):
     else:
         abort(404)
 
-        
-@app_views.route('/amenities/<amenity_id>', methods=['DELETE'])
+
+@app_views.route('/amenities/<amenity_id>', methods=['DELETE'],
+                strict_slashes=False)
 def delete_id(amenity_id):
     """Deletes a Amenity object:: DELETE """
     errase_amenity = storage.get('Amenity', amenity_id)
@@ -55,7 +56,8 @@ def post_amenity():
     return jsonify(post_amenity.to_dict()), 201
 
 
-@app_views.route('/amenities/<amenity_id>', methods=['PUT'])
+@app_views.route('/amenities/<amenity_id>', methods=['PUT'],
+                 strict_slashes=False)
 def update_amenity(amenity_id):
     """Updates a Amenity object: PUT"""
     put_amenity = request.get_json()
