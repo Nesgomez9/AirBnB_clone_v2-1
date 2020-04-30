@@ -7,26 +7,24 @@ from api.v1.views import app_views
 from models.amenity import Amenity
 
 
-@app_views.route('/amenities/', methods=['GET'], strict_slashes=False)
-def get_amenity():
-    """Retrieves the list of all Amenity objects: GET"""
-    amenities = []
-    for key, value in storage.all("Amenity").items():
-        """to_dict() to serialize an object into valid JSON"""
-        amenities.append(value.to_dict())
-        return jsonify(amenities)
+@app_views.route('/amenities', methods=['GET'], strict_slashes=False)
+def get_amenities():
+    """method that retrieves a list of all amenities"""
+    all_amenities = storage.all('Amenity')
+    amenities_list = all_amenities.values()
+    amenities_json = []
+    for amenity in amenities_list:
+        amenities_json.append(amenity.to_dict())
+    return jsonify(amenities_json)
 
 
-@app_views.route("/amenities/<amenity_id>", methods=['GET'],
-                 strict_slashes=False)
-def get_id(amenity_id):
-    """Retrieves the list of all Amenity objects: GET by id"""
-    amenity_all = storage.get('Amenity', amenity_id)
-    """If is not linked to any Amenity object, raise a 404 error"""
-    if amenity_all is None:
+@app_views.route('/amenities/<amenity_id>', methods=['GET'])
+def get_amenity_by_id(amenity_id):
+    """method that retrieves a state filter by id"""
+    my_amenity = storage.get('Amenity', amenity_id)
+    if my_amenity is None:
         abort(404)
-    return jsonify(amenity_all.to_dict())
-
+    return jsonify(my_amenity.to_dict())
 
 @app_views.route('/amenities/<amenity_id>', methods=['DELETE'])
 def delete_id(amenity_id):
