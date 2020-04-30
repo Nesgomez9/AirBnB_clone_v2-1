@@ -6,6 +6,7 @@ from models import storage
 from models.amenity import Amenity
 from models.base_model import BaseModel
 
+<<<<<<< HEAD
 
 @app_views.route("/amenities/", methods=['GET'], strict_slashes=False)
 def all_amenities():
@@ -16,16 +17,22 @@ def all_amenities():
     return jsonify(amenities)
 
 
-@app_views.route("/amenities/<amenity_id>", methods=['GET'],
-                 strict_slashes=False)
-def obj_amenity(amenity_id):
-    """Retrieves a Amenity object"""
-    amenity = storage.get(Amenity, amenity_id)
-    if amenity:
-        return jsonify(amenity.to_dict())
+@app_views.route("/amenities", methods=["GET"], strict_slashes=False)
+def get_amenity(amenity_id=None):
+    if not amenity_id:
+        """Retrieves the list of all Amenity objects: GET"""
+        amenity_req = storage.all('Amenity')
+        amenities_all = amenity_req.values()
+        amenities_json = []
+        for amenity in amenities_all:
+            """to_dict() to serialize an object into valid JSON"""
+            amenities_json.append(amenity.to_dict())
+        return jsonify(amenities_json)
     else:
-        abort(404)
-
+        amenity = storage.get(Amenity, amenity_id)
+        if not amenity:
+            abort(404)
+        return jsonify(amenity.to_dict())
 
 @app_views.route('/amenities/<amenity_id>', methods=['DELETE'],
                 strict_slashes=False)
