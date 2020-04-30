@@ -9,33 +9,33 @@ from models.review import Review
 
 @app_views.route('/places/<place_id>/reviews',
                  methods=['GET'], strict_slashes=False)
-def get_all(place_id):
-    """Retrieves the list of all Review objects of a Place: GET"""
-    get_method = storage.get('Place', place_id)
-    if get_method is None:
+def get_reviews_by_place(place_id):
+    """method that retrieves a list of all states"""
+    my_place = storage.get('Place', place_id)
+    if my_place is None:
         abort(404)
-    obj = get_method.obj
-    rev_list = []
-    for review in obj:
-        rev_list.append(review.to_dict())
-    return jsonify(rev_list)
+    reviews = my_place.reviews
+    reviews_list = []
+    for review in reviews:
+        reviews_list.append(review.to_dict())
+    return jsonify(reviews_list)
 
 
 @app_views.route('/reviews/<review_id>', methods=['GET'],
                  strict_slashes=False)
-def get_id(review_id):
-    """Retrieves the list of all Review objects of a Place: GET by id"""
-    get_review = storage.get('Review', review_id)
-    if get_review is not None:
-        return jsonify(get_review.to_dict())
+def get_review_by_id(review_id):
+    """method that retrieves a review filter by id"""
+    my_review = storage.get('Review', review_id)
+    if my_review is not None:
+        return jsonify(my_review.to_dict())
     else:
         abort(404)
 
 
 @app_views.route('/reviews/<review_id>', methods=['DELETE'],
                  strict_slashes=False)
-def delete_id(review_id):
-    """Deletes a Review object: DELETE"""
+def delete_reviews_by_id(review_id):
+    """method that deletes a review by id"""
     delete_review = storage.get('Review', review_id)
     if delete_review is None:
         abort(404)
@@ -47,7 +47,7 @@ def delete_id(review_id):
 @app_views.route('/places/<place_id>/reviews',
                  methods=['POST'], strict_slashes=False)
 def post_review(place_id):
-    """Creates a Review: POST"""
+    """method to post a new place"""
     new_review = request.get_json()
     if not new_review:
         abort(400, 'Not a JSON')
@@ -70,7 +70,7 @@ def post_review(place_id):
 
 @app_views.route('/reviews/<review_id>', methods=['PUT'])
 def put_review(review_id):
-    """Updates a Review object: PUT"""
+    """method to update/put a review by id"""
     mod_review = storage.get('Review', review_id)
     if mod_review is None:
         abort(404)
