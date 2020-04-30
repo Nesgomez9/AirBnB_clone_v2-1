@@ -10,7 +10,7 @@ from models.review import Review
 @app_views.route('/places/<place_id>/reviews',
                  methods=['GET'], strict_slashes=False)
 def get_reviews_by_place(place_id):
-    """method that retrieves a list of all states"""
+    """Retrieves the list of all User objects: GET"""
     my_place = storage.get('Place', place_id)
     if my_place is None:
         abort(404)
@@ -35,7 +35,7 @@ def get_review_by_id(review_id):
 @app_views.route('/reviews/<review_id>', methods=['DELETE'],
                  strict_slashes=False)
 def delete_reviews_by_id(review_id):
-    """method that deletes a review by id"""
+    """Deletes a User object:: DELETE"""
     delete_review = storage.get('Review', review_id)
     if delete_review is None:
         abort(404)
@@ -47,7 +47,7 @@ def delete_reviews_by_id(review_id):
 @app_views.route('/places/<place_id>/reviews',
                  methods=['POST'], strict_slashes=False)
 def post_review(place_id):
-    """method to post a new place"""
+    """Creates a User: POST """
     new_review = request.get_json()
     if not new_review:
         abort(400, 'Not a JSON')
@@ -70,7 +70,7 @@ def post_review(place_id):
 
 @app_views.route('/reviews/<review_id>', methods=['PUT'])
 def put_review(review_id):
-    """method to update/put a review by id"""
+    """Updates a User object: PUT """
     mod_review = storage.get('Review', review_id)
     if mod_review is None:
         abort(404)

@@ -8,8 +8,8 @@ from models.user import User
 
 
 @app_views.route('/users', methods=['GET'], strict_slashes=False)
-def get_users():
-    """method that retrieves a list of all users"""
+def get_all():
+    """Retrieves the list of all User objects: GET"""
     all_users = storage.all('User')
     users_list = all_users.values()
     users_json = []
@@ -20,7 +20,7 @@ def get_users():
 
 @app_views.route('/users/<user_id>', methods=['GET'])
 def get_user_by_id(user_id):
-    """method that retrieves an user filter by id"""
+    """Retrieves the list of all User objects: GET"""
     my_user = storage.get('User', user_id)
     if my_user is None:
         abort(404)
@@ -29,7 +29,7 @@ def get_user_by_id(user_id):
 
 @app_views.route('/users/<user_id>', methods=['DELETE'])
 def delete_user_by_id(user_id):
-    """method that deletes an user by id"""
+    """Deletes a User object:: DELETE """
     delete_user = storage.get('User', user_id)
     if not delete_user:
         abort(404)
@@ -41,7 +41,7 @@ def delete_user_by_id(user_id):
 
 @app_views.route('/users', methods=['POST'], strict_slashes=False)
 def post_user():
-    """method to post a new user"""
+    """Creates a User: POST"""
     new_user = request.get_json()
     if new_user is None:
         abort(400, 'Not a JSON')
@@ -58,7 +58,7 @@ def post_user():
 
 @app_views.route('/users/<user_id>', methods=['PUT'])
 def put_user(user_id):
-    """method to update/put a state by id"""
+    """Updates a User object: PUT """
     req_user = request.get_json()
     if not request.json:
         abort(400, 'Not a JSON')

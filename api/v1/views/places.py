@@ -10,7 +10,7 @@ from models.place import Place
 @app_views.route('/cities/<city_id>/places',
                  methods=['GET'], strict_slashes=False)
 def get_places_by_city(city_id):
-    """method that retrieves a list of all places"""
+    """Retrieves the list of all User objects: GET"""
     my_city = storage.get('City', city_id)
     if my_city is None:
         abort(404)
@@ -23,7 +23,7 @@ def get_places_by_city(city_id):
 
 @app_views.route('/places/<place_id>', methods=['GET'], strict_slashes=False)
 def get_places_by_id(place_id):
-    """method that retrieves a place filter by id"""
+    """Retrieves the list of all User objects: GET"""
     my_place = storage.get('Place', place_id)
     if my_place is not None:
         return jsonify(my_place.to_dict())
@@ -34,7 +34,7 @@ def get_places_by_id(place_id):
 @app_views.route('/places/<place_id>', methods=['DELETE'],
                  strict_slashes=False)
 def delete_places_by_id(place_id):
-    """method that deletes a place by id"""
+    """Deletes a User object:: DELETE """
     delete_place = storage.get('Place', place_id)
     if delete_place is None:
         abort(404)
@@ -46,7 +46,7 @@ def delete_places_by_id(place_id):
 @app_views.route('/cities/<city_id>/places',
                  methods=['POST'], strict_slashes=False)
 def post_place(city_id):
-    """method to post a new place"""
+    """Creates a User: POST"""
     new_place = request.get_json()
     if not new_place:
         abort(400, 'Not a JSON')
@@ -71,7 +71,7 @@ def post_place(city_id):
 
 @app_views.route('/places/<place_id>', methods=['PUT'], strict_slashes=False)
 def put_place(place_id):
-    """method to update/put a place by id"""
+    """Updates a User object: PUT """
     mod_place = storage.get('Place', place_id)
     if mod_place is None:
         abort(404)
