@@ -66,7 +66,7 @@ def post_review(place_id):
     return jsonify(new_review.to_dict()), 201
 
 
-@app_views.route('/reviews/<review_id>', methods=['PUT'])
+@app_views.route('/reviews/<review_id>', methods=['PUT'], strict_slashes=False)
 def put_review(review_id):
     """method to update/put a review by id"""
     mod_review = storage.get('Review', review_id)
