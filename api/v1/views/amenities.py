@@ -6,6 +6,7 @@ from models import storage
 from api.v1.views import app_views
 from models.amenity import Amenity
 
+
 @app_views.route("/amenities/<amenity_id>",
                  methods=["GET"],
                  strict_slashes=False)
@@ -25,6 +26,7 @@ def get_amenity(amenity_id=None):
         if not amenity:
             abort(404)
         return jsonify(amenity.to_dict())
+
 
 @app_views.route("/amenities/<amenity_id>",
                  methods=["DELETE"],
@@ -52,3 +54,20 @@ def post_amenity():
     storage.new(post_amenity)
     storage.save()
     return jsonify(post_amenity.to_dict()), 201
+
+
+@app_views.route("/amenities/<amenity_id>", methods=["PUT"],
+                 strict_slashes=False)
+def update_amenity(amenity_id):
+    """Updates a Amenity object: PUT"""
+    put_amenity = request.get_json()
+    if not request.json:
+        abort(400, 'Not a JSON')
+    mod_amenity = storage.get('Amenity', amenity_id)
+    if not mod_amenity:
+        abort(404)
+        for key, value in put_amenity.items():
+            if key not in ["id", "created_at", "updated_at"]:
+                setattr(mod_amenity, key, value)
+    storage.save()
+    return jsonify(mod_amenity.to_dict()), 200
