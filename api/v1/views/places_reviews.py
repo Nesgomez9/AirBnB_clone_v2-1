@@ -11,23 +11,25 @@ from models.review import Review
                  methods=['GET'], strict_slashes=False)
 def get_reviews_by_place(place_id):
     """method that retrieves a list of all states"""
-    pls_objs = storage.get(Place, place_id)
-    list_reviews = []
-
-    if not pls_objs:
+    my_place = storage.get('Place', place_id)
+    if my_place is None:
         abort(404)
-    for value in pls_objs.reviews:
-        list_reviews.append(value.to_dict())
-    return (jsonify(list_reviews))
+    reviews = my_place.reviews
+    reviews_list = []
+    for review in reviews:
+        reviews_list.append(review.to_dict())
+    return jsonify(reviews_list)
 
 
-@app_views.route('/reviews/<review_id>', methods=['GET'], strict_slashes=False)
-def review_def(review_id):
-    '''Retrieves review object'''
-    reviewId = storage.get(Review, review_id)
-    if not reviewId:
+@app_views.route('/reviews/<review_id>', methods=['GET'],
+                 strict_slashes=False)
+def get_review_by_id(review_id):
+    """method that retrieves a review filter by id"""
+    my_review = storage.get('Review', review_id)
+    if my_review is not None:
+        return jsonify(my_review.to_dict())
+    else:
         abort(404)
-    return jsonify(reviewId.to_dict())
 
 
 @app_views.route('/reviews/<review_id>', methods=['DELETE'],
@@ -66,7 +68,7 @@ def post_review(place_id):
     return jsonify(new_review.to_dict()), 201
 
 
-@app_views.route('/reviews/<review_id>', methods=['PUT'], strict_slashes=False)
+@app_views.route('/reviews/<review_id>', methods=['PUT'])
 def put_review(review_id):
     """method to update/put a review by id"""
     mod_review = storage.get('Review', review_id)
