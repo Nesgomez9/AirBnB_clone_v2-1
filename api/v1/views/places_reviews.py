@@ -1,7 +1,5 @@
 #!/usr/bin/python3
-"""
-Reviews CRUD
-"""
+""""""
 
 from api.v1.views import app_views
 from flask import Flask, jsonify, abort, request
@@ -13,25 +11,23 @@ from models.review import Review
                  methods=['GET'], strict_slashes=False)
 def get_reviews_by_place(place_id):
     """method that retrieves a list of all states"""
-    my_place = storage.get('Place', place_id)
-    if my_place is None:
+    pls_objs = storage.get(Place, place_id)
+    list_reviews = []
+
+    if not pls_objs:
         abort(404)
-    reviews = my_place.reviews
-    reviews_list = []
-    for review in reviews:
-        reviews_list.append(review.to_dict())
-    return jsonify(reviews_list)
+    for value in pls_objs.reviews:
+        list_reviews.append(value.to_dict())
+    return (jsonify(list_reviews))
 
 
-@app_views.route('/reviews/<review_id>', methods=['GET'],
-                 strict_slashes=False)
-def get_review_by_id(review_id):
-    """method that retrieves a review filter by id"""
-    my_review = storage.get('Review', review_id)
-    if my_review is not None:
-        return jsonify(my_review.to_dict())
-    else:
+@app_views.route('/reviews/<review_id>', methods=['GET'], strict_slashes=False)
+def review_def(review_id):
+    '''Retrieves review object'''
+    reviewId = storage.get(Review, review_id)
+    if not reviewId:
         abort(404)
+    return jsonify(reviewId.to_dict())
 
 
 @app_views.route('/reviews/<review_id>', methods=['DELETE'],
