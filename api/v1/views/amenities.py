@@ -33,14 +33,12 @@ def delete_id(amenity_id):
     errase_amenity = storage.get('Amenity', amenity_id)
     if not errase_amenity:
         abort(404)
-    else:
-        errase_amenity.delete()
-        storage.save()
-        """Returns an empty dictionary with the status code 200"""
-        return jsonify({}), 200
+    errase_amenity.delete()
+    storage.save()
+    """Returns an empty dictionary with the status code 200"""
+    return jsonify({}), 200
 
-
-@app_views.route('/amenities', methods=['POST'], strict_slashes=False)
+@app_views.route("/amenities", methods=["POST"], strict_slashes=False)
 def post_amenity():
     """Creates a Amenity: POST"""
     post_amenity = request.get_json()
@@ -54,8 +52,7 @@ def post_amenity():
     storage.save()
     return jsonify(post_amenity.to_dict()), 201
 
-
-@app_views.route('/amenities/<amenity_id>', methods=['PUT'],
+@app_views.route("/amenities/<amenity_id>", methods=["PUT"],
                  strict_slashes=False)
 def update_amenity(amenity_id):
     """Updates a Amenity object: PUT"""
@@ -63,12 +60,10 @@ def update_amenity(amenity_id):
     if not request.json:
         abort(400, 'Not a JSON')
     mod_amenity = storage.get('Amenity', amenity_id)
-    if mod_amenity is None:
+    if not mod_amenity:
         abort(404)
-    for key in put_amenity:
-        if key == 'id' or key == 'created_at' or key == 'updated_at':
-            pass
-        else:
-            setattr(mod_amenity, key, put_amenity[key])
+        for key, value in put_amenity.items():
+            if key not in ["id", "created_at", "updated_at"]:
+                setattr(mod_amenity, key, value)
     storage.save()
     return jsonify(mod_amenity.to_dict()), 200
