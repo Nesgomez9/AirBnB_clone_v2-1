@@ -9,8 +9,8 @@ from models.place import Place
 
 @app_views.route('/cities/<city_id>/places',
                  methods=['GET'], strict_slashes=False)
-def get_all(city_id):
-    """Retrieves the list of all Review objects of a Place: GET"""
+def get_places_by_city(city_id):
+    """method that retrieves a list of all places"""
     my_city = storage.get('City', city_id)
     if my_city is None:
         abort(404)
@@ -22,8 +22,8 @@ def get_all(city_id):
 
 
 @app_views.route('/places/<place_id>', methods=['GET'], strict_slashes=False)
-def get_id(place_id):
-    """Retrieves the list of all Review objects of a Place: GET by id"""
+def get_places_by_id(place_id):
+    """method that retrieves a place filter by id"""
     my_place = storage.get('Place', place_id)
     if my_place is not None:
         return jsonify(my_place.to_dict())
@@ -33,8 +33,8 @@ def get_id(place_id):
 
 @app_views.route('/places/<place_id>', methods=['DELETE'],
                  strict_slashes=False)
-def delete_id(place_id):
-    """Deletes a Review object: DELETE"""
+def delete_places_by_id(place_id):
+    """method that deletes a place by id"""
     delete_place = storage.get('Place', place_id)
     if delete_place is None:
         abort(404)
@@ -45,8 +45,8 @@ def delete_id(place_id):
 
 @app_views.route('/cities/<city_id>/places',
                  methods=['POST'], strict_slashes=False)
-def post_review(city_id):
-    """Creates a Review: POST"""
+def post_place(city_id):
+    """method to post a new place"""
     new_place = request.get_json()
     if not new_place:
         abort(400, 'Not a JSON')
@@ -70,8 +70,8 @@ def post_review(city_id):
 
 
 @app_views.route('/places/<place_id>', methods=['PUT'], strict_slashes=False)
-def put_review(place_id):
-    """Updates a Review object: PUT"""
+def put_place(place_id):
+    """method to update/put a place by id"""
     mod_place = storage.get('Place', place_id)
     if mod_place is None:
         abort(404)
