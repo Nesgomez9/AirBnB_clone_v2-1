@@ -25,15 +25,3 @@ def get_amenity(amenity_id=None):
         if not amenity:
             abort(404)
         return jsonify(amenity.to_dict())
-
-@app_views.route('/amenities/<amenity_id>', methods=['DELETE'],
-                strict_slashes=False)
-def delete_id(amenity_id):
-    """Deletes a Amenity object:: DELETE """
-    errase_amenity = storage.get('Amenity', amenity_id)
-    if not errase_amenity:
-        abort(404)
-    errase_amenity.delete()
-    storage.save()
-    """Returns an empty dictionary with the status code 200"""
-    return jsonify({}), 200
