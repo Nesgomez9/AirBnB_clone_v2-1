@@ -11,7 +11,7 @@ from models.user import User
 def get_users():
     """Retrieves a User object: GET"""
     users = storage.all('User')
-    req_users = users.values()
+    req_user = users.values()
     users_json = []
     for user in req_user:
         users_json.append(user.to_dict())
