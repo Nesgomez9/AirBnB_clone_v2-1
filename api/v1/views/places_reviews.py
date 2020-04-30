@@ -11,10 +11,10 @@ from models.review import Review
                  methods=['GET'], strict_slashes=False)
 def get_reviews_by_place(place_id):
     """Retrieves the list of all User objects: GET"""
-    my_place = storage.get('Place', place_id)
-    if my_place is None:
+    req_place = storage.get('Place', place_id)
+    if req_place is None:
         abort(404)
-    reviews = my_place.reviews
+    reviews = req_place.reviews
     reviews_list = []
     for review in reviews:
         reviews_list.append(review.to_dict())

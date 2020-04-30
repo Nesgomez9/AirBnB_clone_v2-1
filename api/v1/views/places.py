@@ -11,10 +11,10 @@ from models.place import Place
                  methods=['GET'], strict_slashes=False)
 def get_places_by_city(city_id):
     """Retrieves the list of all User objects: GET"""
-    my_city = storage.get('City', city_id)
-    if my_city is None:
+    req_city = storage.get('City', city_id)
+    if req_city is None:
         abort(404)
-    places = my_city.places
+    places = req_city.places
     places_list = []
     for place in places:
         places_list.append(place.to_dict())

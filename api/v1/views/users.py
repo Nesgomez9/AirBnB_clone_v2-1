@@ -8,10 +8,10 @@ from models.user import User
 
 
 @app_views.route('/users', methods=['GET'], strict_slashes=False)
-def get_all():
+def get_users():
     """Retrieves the list of all User objects: GET"""
-    all_users = storage.all('User')
-    users_list = all_users.values()
+    users_all = storage.all('User')
+    users_list = users_all.values()
     users_json = []
     for user in users_list:
         users_json.append(user.to_dict())
